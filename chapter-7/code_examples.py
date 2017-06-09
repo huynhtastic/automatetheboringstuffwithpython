@@ -1,4 +1,8 @@
 import re
+import sys
+
+sys.path.append('..')
+from note_tools import print_head as ph
 
 # pattern grouping
 print('*Pattern grouping with parentheses')
@@ -111,10 +115,38 @@ atRegex = re.compile(r'.at')
 print(atRegex.findall('The cat in the hat sat on the flat mat.')) # ['cat', 'hat', 'sat', 'lat', 'mat']
 
 # Matching everything with dot-star
-print('\n*Matching everything with dot-star')
+print('\n***Matching everything with dot-star')
 nameRegex = re.compile(r'First Name: (.*) Last Name: (.*)')
 mo = nameRegex.search('First Name: Al Last Name: Sweigart')
 print(mo.group(1)) # 'Al'
 print(mo.group(2)) # 'Sweigart'
+# . is greedy 
+# .*? is non greedy
+nongreedyRegex = re.compile(r'<.*?>')
+mo = nongreedyRegex.search('<To serve man> for dinner.>')
+print(mo.group()) # '<To serve man>'
+greedyRegex = re.compile(r'<.*>')
+mo = greedyRegex.search('<To serve man> for dinner.>')
+print(mo.group()) # <To serve man> for dinner.>
 
-# pg 185pdf/161
+# Matching Newlines with the Dot Character
+ph('Matching Newlines with the Dot Character')
+# .* does not match \n without re.DOTALL
+noNewlineRegex = re.compile('.*')
+print(noNewlineRegex.search('Serve the public trust.\nProtect the innocent.\nUphold the law.').group()) # 'Serve the public trust.'
+newlineRegex = re.compile('.*', re.DOTALL)
+print(newlineRegex.search('Serve the public trust.\nProtect the innocent.\nUphold the law.').group())
+  # 'Serve the public trust.\nProtect thee innocent.\nUphold the law.'
+
+# Review all symbols
+ph('Review of Regex Symbols')
+# ? matches zero or one of the proceeding group
+# * matches zero or more of the proceeding group
+# + matches one or more of the proceeding group
+# {n} matches exactly n of the proceeding group
+# {n, } matches at least n of the proceeding group
+# { , m} matches at most m of the proceeding group
+# {n, m} matches at least n and at most m of the proceeding group
+# {n,}
+
+# finish 162/186 pdf
